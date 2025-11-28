@@ -10,3 +10,16 @@ D:\teycks_shop-master\Core\obj\Debug\net8.0\Core.dll
 D:\teycks_shop-master\Core\obj\Debug\net8.0\refint\Core.dll
 D:\teycks_shop-master\Core\obj\Debug\net8.0\Core.pdb
 D:\teycks_shop-master\Core\obj\Debug\net8.0\ref\Core.dll
+D:\music\Core\bin\Debug\net8.0\Core.deps.json
+D:\music\Core\bin\Debug\net8.0\Core.dll
+D:\music\Core\bin\Debug\net8.0\Core.pdb
+D:\music\Core\obj\Debug\net8.0\Core.csproj.AssemblyReference.cache
+D:\music\Core\obj\Debug\net8.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\music\Core\obj\Debug\net8.0\Core.AssemblyInfoInputs.cache
+D:\music\Core\obj\Debug\net8.0\Core.AssemblyInfo.cs
+D:\music\Core\obj\Debug\net8.0\Core.csproj.CoreCompileInputs.cache
+D:\music\Core\obj\Debug\net8.0\Core.sourcelink.json
+D:\music\Core\obj\Debug\net8.0\Core.dll
+D:\music\Core\obj\Debug\net8.0\refint\Core.dll
+D:\music\Core\obj\Debug\net8.0\Core.pdb
+D:\music\Core\obj\Debug\net8.0\ref\Core.dll

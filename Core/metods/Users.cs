@@ -1,8 +1,20 @@
-﻿namespace Core;
-
-public class Users
+﻿public class User
 {
-    string name{get;set;}
-    string password{get;set;}
-    Guid id{get;set;}
+    public int id { get; set; }
+    public string name { get; set; }
+    public string password { get; set; }
 }
+
+public class Music
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public string artist { get; set; }
+    public string song_LONGELOS { get; set; }
+}
+
+public class UserPlay
+{
+    public int user_id { get; set; }
+    public int music_id { get; set; }
+}   

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "iTitgt80Y+k=",
+  "dgSpecHash": "O3smaH4rHuc=",
   "success": true,
   "projectFilePath": "D:\\music\\Api\\Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dimah\\.nuget\\packages\\bouncycastle.cryptography\\2.5.1\\bouncycastle.cryptography.2.5.1.nupkg.sha512",
+    "C:\\Users\\dimah\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
     "C:\\Users\\dimah\\.nuget\\packages\\google.protobuf\\3.30.0\\google.protobuf.3.30.0.nupkg.sha512",
     "C:\\Users\\dimah\\.nuget\\packages\\k4os.compression.lz4\\1.3.8\\k4os.compression.lz4.1.3.8.nupkg.sha512",
     "C:\\Users\\dimah\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.8\\k4os.compression.lz4.streams.1.3.8.nupkg.sha512",

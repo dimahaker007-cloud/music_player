@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "Core/1.0.0": {
         "dependencies": {
+          "Dapper": "2.1.66",
           "MySql.Data": "9.4.0",
           "Pomelo.EntityFrameworkCore.MySql": "9.0.0"
         },
@@ -20,6 +21,14 @@
           "lib/net6.0/BouncyCastle.Cryptography.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.5.1.28965"
+          }
+        }
+      },
+      "Dapper/2.1.66": {
+        "runtime": {
+          "lib/net8.0/Dapper.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.1.66.48463"
           }
         }
       },
@@ -465,6 +474,13 @@
       "sha512": "sha512-zy8TMeTP+1FH2NrLaNZtdRbBdq7u5MI+NFZQOBSM69u5RFkciinwzV2eveY6Kjf5MzgsYvvl6kTStsj3JrXqkg==",
       "path": "bouncycastle.cryptography/2.5.1",
       "hashPath": "bouncycastle.cryptography.2.5.1.nupkg.sha512"
+    },
+    "Dapper/2.1.66": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw==",
+      "path": "dapper/2.1.66",
+      "hashPath": "dapper.2.1.66.nupkg.sha512"
     },
     "Google.Protobuf/3.30.0": {
       "type": "package",

@@ -4,10 +4,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
+    .AddInteractiveServerComponents();                  
+builder.Services.AddControllers();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IUserService, UserService>();
 var app = builder.Build();
-
+app.UseRouting();
+app.MapControllers();
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
