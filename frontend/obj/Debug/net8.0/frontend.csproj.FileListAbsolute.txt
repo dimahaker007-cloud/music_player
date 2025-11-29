@@ -99,3 +99,15 @@ D:\music\frontend\obj\Debug\net8.0\frontend.pdb
 D:\music\frontend\obj\Debug\net8.0\frontend.genruntimeconfig.cache
 D:\music\frontend\obj\Debug\net8.0\ref\frontend.dll
 D:\music\frontend\obj\Debug\net8.0\frontend.MvcApplicationPartsAssemblyInfo.cs
+D:\music\frontend\bin\Debug\net8.0\Api.deps.json
+D:\music\frontend\bin\Debug\net8.0\Api.runtimeconfig.json
+D:\music\frontend\bin\Debug\net8.0\Api.staticwebassets.endpoints.json
+D:\music\frontend\bin\Debug\net8.0\Api.exe
+D:\music\frontend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\music\frontend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\music\frontend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\music\frontend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\music\frontend\bin\Debug\net8.0\Api.dll
+D:\music\frontend\bin\Debug\net8.0\Core.dll
+D:\music\frontend\bin\Debug\net8.0\Api.pdb
+D:\music\frontend\bin\Debug\net8.0\Core.pdb

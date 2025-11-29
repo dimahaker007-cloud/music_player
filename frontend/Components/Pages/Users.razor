@@ -1,0 +1,92 @@
+﻿@page "/Users"
+@rendermode InteractiveServer
+@inject HttpClient Http
+
+<PageTitle>Users</PageTitle>
+
+<h1>Users List</h1>
+
+@if (users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (users.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.id</td>
+                    <td>@user.name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No users found.</p>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<button class="btn btn-primary" @onclick="LoadUsers" disabled="@isLoading">
+    @if (isLoading)
+    {
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+        <span>Loading...</span>
+    }
+    else
+    {
+        <span>Load Users</span>
+    }
+</button>
+
+@code {
+    private List<UserDto>? users;
+    private string? errorMessage;
+    private bool isLoading = false;
+
+    private async Task LoadUsers()
+    {
+        isLoading = true;
+        errorMessage = null;
+        users = null;
+        
+        try
+        {
+            // Використовуємо ваш контролер - endpoint буде "api/users"
+            users = await Http.GetFromJsonAsync<List<UserDto>>("api/users");
+            
+            if (users == null)
+            {
+                errorMessage = "No users received from API";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading users: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+    // Класи для десеріалізації відповіді API
+    public class UserDto
+    {
+        public int id { get; set; }
+        public string? name { get; set; }
+    }
+
+}

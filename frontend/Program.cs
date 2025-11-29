@@ -1,34 +1,48 @@
 using frontend.Components;
 
-var builder = WebApplication.CreateBuilder(args);
+var builders = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+
+// Додайте сервіси для Blazor Web App
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();                  
+    .AddInteractiveServerComponents(); // або AddInteractiveWebAssemblyComponents()
+builder.Services.AddHttpClient("LocalApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:44302/"); // Ваш URL
+});
+
+// Або зареєструйте типовий HttpClient
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://localhost:44302/")
+});
+// Додайте сервіси для API
 builder.Services.AddControllers();
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddHttpClient();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMusicService, MusicService>();
+
+// Додайте HttpClient
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
-app.UseRouting();
-app.MapControllers();
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
-// Configure the HTTP request pipeline.
+
+// Конфігурація middleware
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.MapControllers(); // Для API контролерів
+
+// Для Blazor Web App використовуйте MapRazorComponents
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode(); // або AddInteractiveWebAssemblyRenderMode()
 
 app.Run();
