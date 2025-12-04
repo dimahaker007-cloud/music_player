@@ -111,3 +111,8 @@ D:\music\frontend\bin\Debug\net8.0\Api.dll
 D:\music\frontend\bin\Debug\net8.0\Core.dll
 D:\music\frontend\bin\Debug\net8.0\Api.pdb
 D:\music\frontend\bin\Debug\net8.0\Core.pdb
+D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Debug.dll
+D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll

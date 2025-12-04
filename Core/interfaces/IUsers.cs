@@ -83,6 +83,7 @@ public class UserService : IUserService
 }
 public class MusicService : IMusicService
 {
+    
     private readonly string _connectionString;
 
     public MusicService(IConfiguration configuration)
@@ -98,7 +99,7 @@ public class MusicService : IMusicService
         {
             await connection.OpenAsync();
             
-            var query = "SELECT id, name, artist, song_LONGELOS FROM music";
+            var query = "SELECT id, name, artist FROM music";
             
             using (var command = new MySqlCommand(query, connection))
             using (var reader = await command.ExecuteReaderAsync())
@@ -108,9 +109,12 @@ public class MusicService : IMusicService
                     var music = new Music
                     {
                         id = reader.GetInt32("id"),
-                        name = reader.GetString("name"),
-                        artist = reader.GetString("artist"),
-                        song_LONGELOS = reader.GetString("song_LONGELOS")
+                        name = reader.IsDBNull(reader.GetOrdinal("name")) 
+                            ? null 
+                            : reader.GetString("name"),
+                        artist = reader.IsDBNull(reader.GetOrdinal("artist")) 
+                            ? null 
+                            : reader.GetString("artist")
                     };
                     musicList.Add(music);
                 }
@@ -120,13 +124,18 @@ public class MusicService : IMusicService
         return musicList;
     }
 
-    public async Task<Music> GetMusicByIdAsync(int id)
+    public Task<Music> GetMusicByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Music> GetMusicAudioAsync(int id)
     {
         using (var connection = new MySqlConnection(_connectionString))
         {
             await connection.OpenAsync();
             
-            var query = "SELECT id, name, artist, song_LONGELOS FROM music WHERE id = @Id";
+            var query = "SELECT audio_data, content_type FROM music WHERE id = @Id";
             
             using (var command = new MySqlCommand(query, connection))
             {
@@ -138,10 +147,8 @@ public class MusicService : IMusicService
                     {
                         return new Music
                         {
-                            id = reader.GetInt32("id"),
-                            name = reader.GetString("name"),
-                            artist = reader.GetString("artist"),
-                            song_LONGELOS = reader.GetString("song_LONGELOS")
+                            audio_data = (byte[])reader["audio_data"],
+                            content_type = reader.GetString("content_type")
                         };
                     }
                 }

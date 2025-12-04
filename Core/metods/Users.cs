@@ -8,9 +8,10 @@
 public class Music
 {
     public int id { get; set; }
-    public string name { get; set; }
-    public string artist { get; set; }
-    public string song_LONGELOS { get; set; }
+    public string name { get; set; } = string.Empty;
+    public string artist { get; set; } = string.Empty;
+    public byte[] audio_data { get; set; } = Array.Empty<byte>();
+    public string content_type { get; set; } = "audio/mpeg";
 }
 
 public class UserPlay

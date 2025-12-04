@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[2.1.66, )"
             },
+            "Microsoft.AspNetCore.Hosting": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[9.4.0, )"
@@ -144,6 +148,10 @@
               "target": "Package",
               "version": "[2.1.66, )"
             },
+            "Microsoft.AspNetCore.Hosting": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[9.4.0, )"
@@ -229,6 +237,10 @@
             "Dapper": {
               "target": "Package",
               "version": "[2.1.66, )"
+            },
+            "Microsoft.AspNetCore.Hosting": {
+              "target": "Package",
+              "version": "[2.3.0, )"
             },
             "MySql.Data": {
               "target": "Package",

@@ -144,3 +144,8 @@ D:\music\Api\obj\Debug\net8.0\Api.pdb
 D:\music\Api\obj\Debug\net8.0\Api.genruntimeconfig.cache
 D:\music\Api\obj\Debug\net8.0\ref\Api.dll
 D:\music\Api\bin\Debug\net8.0\Dapper.dll
+D:\music\Api\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\music\Api\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\music\Api\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+D:\music\Api\bin\Debug\net8.0\Microsoft.Extensions.Logging.Debug.dll
+D:\music\Api\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
