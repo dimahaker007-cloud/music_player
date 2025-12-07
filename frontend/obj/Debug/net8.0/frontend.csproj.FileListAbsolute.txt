@@ -116,3 +116,5 @@ D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions
 D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
 D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Debug.dll
 D:\music\frontend\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+D:\music\frontend\bin\Debug\net8.0\Bussines.dll
+D:\music\frontend\bin\Debug\net8.0\Bussines.pdb

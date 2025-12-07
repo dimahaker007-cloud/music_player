@@ -1141,6 +1141,22 @@
         "runtime": {
           "lib/net8.0/ZstdSharp.dll": {}
         }
+      },
+      "Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Dapper": "2.1.66",
+          "Microsoft.AspNetCore.Hosting": "2.3.0",
+          "MySql.Data": "9.4.0",
+          "Pomelo.EntityFrameworkCore.MySql": "9.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Core.dll": {}
+        }
       }
     }
   },
@@ -3135,10 +3151,16 @@
         "zstdsharp.port.0.8.5.nupkg.sha512",
         "zstdsharp.port.nuspec"
       ]
+    },
+    "Core/1.0.0": {
+      "type": "project",
+      "path": "../Core/Core.csproj",
+      "msbuildProject": "../Core/Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Core >= 1.0.0",
       "Dapper >= 2.1.66",
       "Microsoft.AspNetCore.Hosting >= 2.3.0",
       "MySql.Data >= 9.4.0",
@@ -3176,7 +3198,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\music\\Core\\Core.csproj": {
+              "projectPath": "D:\\music\\Core\\Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

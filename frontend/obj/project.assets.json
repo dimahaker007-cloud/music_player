@@ -1231,6 +1231,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Bussines": "1.0.0",
           "Core": "1.0.0",
           "Dapper": "2.1.66",
           "Microsoft.AspNetCore.Hosting": "2.3.0",
@@ -1247,6 +1248,23 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Bussines/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Core": "1.0.0",
+          "Dapper": "2.1.66",
+          "Microsoft.AspNetCore.Hosting": "2.3.0",
+          "MySql.Data": "9.4.0",
+          "Pomelo.EntityFrameworkCore.MySql": "9.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Bussines.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Bussines.dll": {}
+        }
       },
       "Core/1.0.0": {
         "type": "project",
@@ -3611,6 +3629,11 @@
       "path": "../Api/Api.csproj",
       "msbuildProject": "../Api/Api.csproj"
     },
+    "Bussines/1.0.0": {
+      "type": "project",
+      "path": "../Bussines/Bussines.csproj",
+      "msbuildProject": "../Bussines/Bussines.csproj"
+    },
     "Core/1.0.0": {
       "type": "project",
       "path": "../Core/Core.csproj",
@@ -3620,6 +3643,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Api >= 1.0.0",
+      "Bussines >= 1.0.0",
       "Core >= 1.0.0",
       "Dapper >= 2.1.66",
       "Microsoft.AspNetCore.Hosting >= 2.3.0",
@@ -3661,6 +3685,9 @@
           "projectReferences": {
             "D:\\music\\Api\\Api.csproj": {
               "projectPath": "D:\\music\\Api\\Api.csproj"
+            },
+            "D:\\music\\Bussines\\Bussines.csproj": {
+              "projectPath": "D:\\music\\Bussines\\Bussines.csproj"
             },
             "D:\\music\\Core\\Core.csproj": {
               "projectPath": "D:\\music\\Core\\Core.csproj"

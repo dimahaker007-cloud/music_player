@@ -18,11 +18,23 @@ builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri("https://localhost:44302/")
 });
+// Додати HttpClient з правильним BaseAddress
+
 // Додайте сервіси для API
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMusicService, MusicService>();
+builder.Services.AddScoped<IMusicPlayerService, MusicPlayerService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 // Додайте HttpClient
 builder.Services.AddHttpClient();
 
@@ -34,7 +46,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();

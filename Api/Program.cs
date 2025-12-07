@@ -19,6 +19,7 @@ builder.Services.AddCors(options =>
 // Реєструємо сервіси
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMusicService, MusicService>();
+builder.Services.AddScoped<IMusicPlayerService, MusicPlayerService>();
 
 var app = builder.Build();
 

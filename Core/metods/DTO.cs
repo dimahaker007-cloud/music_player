@@ -6,10 +6,9 @@
 
 public class MusicDto
 {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string artist { get; set; }
-    public string song { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Artist { get; set; }
 }
 
 public class UserLoginDto
