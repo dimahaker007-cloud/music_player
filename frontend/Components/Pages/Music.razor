@@ -1,0 +1,44 @@
+﻿@page "/Music"
+@inject HttpClient Http
+
+<h3>Список музики</h3>
+
+@if (musicList == null)
+{
+    <p>Завантаження...</p>
+}
+else
+{
+    <table class="table">
+        
+        <tbody>
+        @foreach (var music in musicList)
+        {
+            <tr>
+                <td>@music.Name - @music.Artist</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<MusicDto>? musicList;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetAsync("api/musicplayer/all");
+            
+            if (response.IsSuccessStatusCode)
+            {
+                musicList = await response.Content.ReadFromJsonAsync<List<MusicDto>>();
+            }
+        }
+        catch
+        {
+            // Обробка помилок
+        }
+    }
+}
