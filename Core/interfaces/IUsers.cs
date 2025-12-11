@@ -6,6 +6,9 @@ public interface IUserService
 {
     Task<List<User>> GetAllUsersAsync();
     Task<User> GetUserByIdAsync(int id);
+    Task<int> AddUserAsync(User user);
+    Task<bool> UpdateUserAsync(User user);
+    Task<bool> DeleteUserAsync(int id);
 }
 
 public interface IMusicService
@@ -84,5 +87,70 @@ public class UserService : IUserService
         }
         
         return null;
+    }
+    public async Task<int> AddUserAsync(User user)
+    {
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            
+            var query = "INSERT INTO users (name, password) VALUES (@Name, @Password); SELECT LAST_INSERT_ID();";
+            
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Name", user.name);
+                command.Parameters.AddWithValue("@Password", user.password);
+                
+                // Виконуємо запит та отримуємо ID нового користувача
+                var result = await command.ExecuteScalarAsync();
+                
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToInt32(result);
+                }
+                
+                return 0; // Повертаємо 0 якщо щось пішло не так
+            }
+        }
+    }
+
+    public async Task<bool> UpdateUserAsync(User user)
+    {
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            
+            var query = "UPDATE users SET name = @Name, password = @Password WHERE id = @Id";
+            
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", user.id);
+                command.Parameters.AddWithValue("@Name", user.name);
+                command.Parameters.AddWithValue("@Password", user.password);
+                
+                var rowsAffected = await command.ExecuteNonQueryAsync();
+                
+                return rowsAffected > 0;
+            }
+        }
+    }
+
+    public async Task<bool> DeleteUserAsync(int id)
+    {
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            
+            var query = "DELETE FROM users WHERE id = @Id";
+            
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                
+                var rowsAffected = await command.ExecuteNonQueryAsync();
+                
+                return rowsAffected > 0;
+            }
+        }
     }
 }
