@@ -14,21 +14,30 @@ else if (users.Any())
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var user in users)
-            {
-                <tr>
-                    <td>@user.id</td>
-                    <td>@user.name</td>
-                </tr>
-            }
+        @foreach (var user in users)
+        {
+            <tr>
+                <td>@user.id</td>
+                <td>@user.name</td>
+            </tr>
+        }
         </tbody>
     </table>
+    <button onclick="window.location.href='/Adduser'" 
+            style="background-color: greenyellow; 
+               color: white; 
+               padding: 10px 20px; 
+               border: none; 
+               border-radius: 4px; 
+               cursor: pointer;">
+        Додати
+    </button>
 }
 else
 {
@@ -89,4 +98,4 @@ else
         public string? name { get; set; }
     }
 
-}
+};
