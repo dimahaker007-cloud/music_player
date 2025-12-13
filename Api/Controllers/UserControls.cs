@@ -64,7 +64,7 @@ public class UsersController : ControllerBase
 
     // POST: api/users/login
     [HttpPost("login")]
-    public async Task<ActionResult<UserDto>> Login([FromBody] UserLoginDto loginDto)
+    public async Task<ActionResult<UserLoginDto>> Login([FromBody] UserLoginDto loginDto)
     {
         try
         {
@@ -75,9 +75,9 @@ public class UsersController : ControllerBase
             if (user == null)
                 return Unauthorized("Invalid credentials");
                 
-            var userDto = new UserDto
+            var userDto = new UserLoginDto()
             {
-                id = user.id,
+                password = user.password,
                 name = user.name
             };
             

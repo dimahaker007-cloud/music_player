@@ -4,7 +4,7 @@
 @inject NavigationManager NavManager
 
 <div>
-    <input type="text" 
+    <input type="text"
            @bind="name"
            placeholder="Введіть ваше ім'я"
            style="width: 300px; 
@@ -15,8 +15,8 @@
                   border-radius: 4px;
                   margin-bottom: 10px;
                   display: block;">
-    
-    <input type="password" 
+
+    <input type="password"
            @bind="password"
            placeholder="Введіть пароль"
            style="width: 300px; 
@@ -27,8 +27,8 @@
                   border-radius: 4px;
                   margin-bottom: 10px;
                   display: block;">
-    
-    <input type="password" 
+
+    <input type="password"
            @bind="confirmPassword"
            placeholder="Підтвердьте пароль"
            style="width: 300px; 
@@ -39,7 +39,7 @@
                   border-radius: 4px;
                   margin-bottom: 15px;
                   display: block;">
-    
+
     <button @onclick="CreateUser"
             style="background-color: #4CAF50; 
                    color: white; 
@@ -61,8 +61,7 @@
     {
         if (password != confirmPassword)
         {
-            // Можна додати повідомлення
-            return;
+            return ;
         }
         
         var user = new { name, password };

@@ -1,0 +1,59 @@
+﻿@page "/"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+<div>
+    <h3>Увійти в систему</h3>
+    
+    <input type="text"
+           @bind="username"
+           placeholder="Ім'я користувача"
+           style="width: 300px; height: 35px; padding: 8px; margin: 10px 0;" />
+    
+    <input type="password"
+           @bind="password"
+           placeholder="Пароль"
+           style="width: 300px; height: 35px; padding: 8px; margin: 10px 0;" />
+    
+    <button @onclick="LoginUser" 
+            style="background: #4CAF50; color: white; padding: 10px 20px; border: none;">
+        Увійти
+    </button>
+    
+    @if (showError)
+    {
+        <p style="color: red;">Невірні дані для входу!</p>
+    }
+</div>
+
+@code {
+    private string username = "";
+    private string password = "";
+    private bool showError = false;
+
+    public async Task LoginUser()
+    {
+        showError = false;
+        
+        var loginData = new { name = username, password = password };
+        
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/Users/login", loginData);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                // Успішний вхід
+                NavManager.NavigateTo("/Home");
+            }
+            else
+            {
+                showError = true;
+            }
+        }
+        catch
+        {
+            showError = true;
+        }
+    }
+}

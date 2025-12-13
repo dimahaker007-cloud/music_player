@@ -30,7 +30,7 @@ else if (users.Any())
         </tbody>
     </table>
     <button onclick="window.location.href='/Adduser'" 
-            style="background-color: greenyellow; 
+            style="background-color: #4CAF50; 
                color: white; 
                padding: 10px 20px; 
                border: none; 
@@ -74,7 +74,6 @@ else
         
         try
         {
-            // Використовуємо ваш контролер - endpoint буде "api/users"
             users = await Http.GetFromJsonAsync<List<UserDto>>("api/users");
             
             if (users == null)
@@ -91,11 +90,4 @@ else
             isLoading = false;
         }
     }
-    // Класи для десеріалізації відповіді API
-    public class UserDto
-    {
-        public int id { get; set; }
-        public string? name { get; set; }
-    }
-
 };

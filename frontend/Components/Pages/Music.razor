@@ -1,44 +1,128 @@
 ﻿@page "/Music"
 @inject HttpClient Http
-
-<h3>Список музики</h3>
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+<h3>Музична бібліотека</h3>
 
 @if (musicList == null)
 {
-    <p>Завантаження...</p>
+    <p><em>Завантаження музики...</em></p>
+}
+else if (!musicList.Any())
+{
+    <p>Поки що немає музики. Додайте першу пісню!</p>
 }
 else
 {
-    <table class="table">
-        
-        <tbody>
-        @foreach (var music in musicList)
+    <div class="music-container">
+        <!-- Список пісень -->
+        <div class="music-list">
+            @foreach (var music in musicList)
+            {
+                <div class="music-item @(currentPlayingId == music.Id ? "playing" : "")">
+                    <div class="music-info">
+                        <span class="music-title">@music.Name</span>
+                        <span class="music-artist">@music.Artist</span>
+                    </div>
+                    <button @onclick="() => PlayMusic(music.Id)" 
+                            class="play-button">
+                        @if (currentPlayingId == music.Id)
+                        {
+                            <span>⏸</span>
+                        }
+                        else
+                        {
+                            <span>▶</span>
+                        }
+                    </button>
+                </div>
+            }
+        </div>
+
+        <!-- Аудіо плеєр -->
+        @if (currentPlayingId.HasValue)
         {
-            <tr>
-                <td>@music.Name - @music.Artist</td>
-            </tr>
+            var currentMusic = musicList.FirstOrDefault(m => m.Id == currentPlayingId.Value);
+            
+            <div class="audio-player">
+                <div class="player-header">
+                    <h5>Зараз грає</h5>
+                    <button @onclick="StopPlayback" class="close-btn">×</button>
+                </div>
+                <div class="current-track">
+                    <strong>@currentMusic?.Name</strong> - @currentMusic?.Artist
+                </div>
+                <audio src="@GetAudioUrl(currentPlayingId.Value)" 
+                       @ref="audioElement"
+                       autoplay
+                       controls
+                       preload="metadata"
+                       @onended="OnTrackEnded"
+                       @onerror="OnAudioError"
+                       class="audio-element">
+                    Ваш браузер не підтримує аудіо.
+                </audio>
+            </div>
         }
-        </tbody>
-    </table>
+    </div>
 }
 
 @code {
     private List<MusicDto>? musicList;
+    private ElementReference audioElement;
+    private int? currentPlayingId = null;
     
     protected override async Task OnInitializedAsync()
     {
+        await LoadMusic();
+    }
+    
+    private async Task LoadMusic()
+    {
         try
         {
-            var response = await Http.GetAsync("api/musicplayer/all");
-            
-            if (response.IsSuccessStatusCode)
-            {
-                musicList = await response.Content.ReadFromJsonAsync<List<MusicDto>>();
-            }
+            musicList = await Http.GetFromJsonAsync<List<MusicDto>>("api/music");
+            Console.WriteLine($"Завантажено {musicList?.Count} пісень");
         }
-        catch
+        catch (Exception ex)
         {
-            // Обробка помилок
+            Console.WriteLine($"Помилка завантаження музики: {ex.Message}");
         }
+    }
+    
+    private void PlayMusic(int musicId)
+    {
+        currentPlayingId = currentPlayingId == musicId ? null : musicId;
+    }
+    
+    private void StopPlayback()
+    {
+        currentPlayingId = null;
+    }
+    
+    private void OnTrackEnded()
+    {
+        currentPlayingId = null;
+        StateHasChanged();
+    }
+    
+    private void OnAudioError()
+    {
+        Console.WriteLine($"Помилка аудіо елемента при відтворенні {currentPlayingId}");
+        // Додаткова інформація через JS
+        _ = JSRuntime.InvokeVoidAsync("console.error", 
+            $"Audio error for track {currentPlayingId}");
+    }
+    
+    private string GetAudioUrl(int musicId)
+    {
+        return $"https://localhost:44302/api/music/stream/{musicId}";
+    }
+    
+    public class MusicDto
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Artist { get; set; }
     }
 }
