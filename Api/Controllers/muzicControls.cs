@@ -34,7 +34,7 @@ public class MusicController : ControllerBase
     
     // GET: api/music/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Music>> GetById(int id)
+    public async Task<ActionResult<MusicDto>> GetById(int id)
     {
         try
         {

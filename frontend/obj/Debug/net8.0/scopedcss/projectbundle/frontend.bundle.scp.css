@@ -201,3 +201,51 @@ main[b-hm2q4ff5zl] {
         overflow-y: auto;
     }
 }
+/* _content/frontend/Components/Pages/Login.razor.rz.scp.css */
+.login-container[b-tstzzsx419] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login-card[b-tstzzsx419] {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 400px;
+    text-align: center;
+}
+
+.form-input[b-tstzzsx419] {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-button[b-tstzzsx419] {
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-button:hover[b-tstzzsx419] {
+    background: #45a049;
+}
+
+.error-message[b-tstzzsx419] {
+    color: #f44336;
+    margin-top: 15px;
+}

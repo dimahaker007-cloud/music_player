@@ -1,29 +1,33 @@
 ﻿@page "/"
 @inject HttpClient Http
 @inject NavigationManager NavManager
+@inject AuthStateService AuthState
 @rendermode InteractiveServer
-<div>
-    <h3>Увійти в систему</h3>
-    
-    <input type="text"
-           @bind="username"
-           placeholder="Ім'я користувача"
-           style="width: 300px; height: 35px; padding: 8px; margin: 10px 0;" />
-    
-    <input type="password"
-           @bind="password"
-           placeholder="Пароль"
-           style="width: 300px; height: 35px; padding: 8px; margin: 10px 0;" />
-    
-    <button @onclick="LoginUser" 
-            style="background: #4CAF50; color: white; padding: 10px 20px; border: none;">
-        Увійти
-    </button>
-    
-    @if (showError)
-    {
-        <p style="color: red;">Невірні дані для входу!</p>
-    }
+
+<div class="login-container">
+    <div class="login-card">
+        <h3>Увійти в систему</h3>
+        
+        <input type="text"
+               @bind="username"
+               placeholder="Ім'я користувача"
+               class="form-input" />
+        
+        <input type="password"
+               @bind="password"
+               placeholder="Пароль"
+               class="form-input" />
+        
+        <button @onclick="LoginUser" 
+                class="login-button">
+            Увійти
+        </button>
+        
+        @if (showError)
+        {
+            <p class="error-message">Невірні дані для входу!</p>
+        }
+    </div>
 </div>
 
 @code {
@@ -43,7 +47,10 @@
             
             if (response.IsSuccessStatusCode)
             {
-                // Успішний вхід
+                // Встановлюємо статус автентифікації
+                AuthState.Login();
+                
+                // Перенаправляємо на головну
                 NavManager.NavigateTo("/Home");
             }
             else

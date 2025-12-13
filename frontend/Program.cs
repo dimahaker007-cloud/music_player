@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMusicService, MusicService>();
 builder.Services.AddScoped<IMusicPlayerService, MusicPlayerService>();
-
+builder.Services.AddSingleton<AuthStateService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>

@@ -1,5 +1,4 @@
-﻿// Services/Concrete/MusicPlayerService.cs
-
+// Services/Concrete/MusicPlayerService.cs
 using Microsoft.Extensions.Logging;
 public interface IMusicPlayerService
 {
