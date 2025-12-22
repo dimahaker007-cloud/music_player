@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using models;
 
 namespace Api.Controllers
@@ -9,10 +10,12 @@ namespace Api.Controllers
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IMemoryCache _cache;
 
-    public UsersController(IUserService userService)
+    public UsersController(IUserService userService, IMemoryCache cache)
     {
         _userService = userService;
+        _cache = cache;
     }
     
     // GET: api/users
@@ -89,38 +92,45 @@ public class UsersController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<ActionResult<User>> CreateUser([FromBody] User user2)
+    public async Task<ActionResult> CreateUser(
+        [FromBody] User userReq, 
+        [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey)
     {
+        var requestId = HttpContext.Items["RequestId"]?.ToString() ?? "unknown";
+
+        if (string.IsNullOrEmpty(idempotencyKey))
+            return BadRequest(new ApiErrorResponse { Error = "Missing Idempotency-Key", RequestId = requestId });
+
         try
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            
-            var user = new User()
+            // --- ІДЕМПОТЕНТНІСТЬ ---
+            if (_cache.TryGetValue(idempotencyKey, out UserDto? cachedUser))
             {
-                name = user2.name,
-                password = user2.password
-            };
+                Response.Headers.Add("X-Idempotency-Cache", "HIT");
+                return Ok(cachedUser);
+            }
 
+            var user = new User { name = userReq.name, password = userReq.password };
             var userId = await _userService.AddUserAsync(user);
-                
-            if (userId <= 0)
-                return StatusCode(500, "Failed to create user");
+            
+            if (userId <= 0) throw new Exception("Database error");
 
-            var userDto = new UserDto
-            {
-                id = userId,
-                name = user.name
-            };
+            var userDto = new UserDto { id = user.id, name = user.name };
 
-            return CreatedAtAction(nameof(GetUserById), new { id = userId }, userDto);
+            // Зберігаємо результат у кеш
+            _cache.Set(idempotencyKey, userDto, TimeSpan.FromHours(1));
+
+            return CreatedAtAction(nameof(GetUserById), new { id = user.id }, userDto);
         }
         catch (Exception ex)
         {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            return StatusCode(500, new ApiErrorResponse { 
+                Error = "Internal Server Error", 
+                Details = ex.Message, 
+                RequestId = requestId 
+            });
         }
     }
-
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id)
     {

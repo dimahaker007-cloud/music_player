@@ -2,53 +2,37 @@
 @rendermode InteractiveServer
 @inject HttpClient Http
 @inject NavigationManager NavManager
+@using System.Threading
+
+@* --- Банер Degraded Mode --- *@
+@if (isDegraded)
+{
+    <div style="background-color: #ffcccc; color: #cc0000; padding: 15px; border: 1px solid #cc0000; border-radius: 4px; margin-bottom: 20px; width: 300px;">
+        <strong>Сервіс перевантажено!</strong> <br />
+        Спробуйте пізніше або зверніться в підтримку.
+    </div>
+}
 
 <div>
-    <input type="text"
-           @bind="name"
-           placeholder="Введіть ваше ім'я"
-           style="width: 300px; 
-                  height: 35px; 
-                  padding: 8px; 
-                  font-size: 14px;
-                  border: 1px solid #ccc;
-                  border-radius: 4px;
-                  margin-bottom: 10px;
-                  display: block;">
+    <input type="text" @bind="name" placeholder="Введіть ваше ім'я"
+           style="width: 300px; height: 35px; padding: 8px; margin-bottom: 10px; display: block;" 
+           disabled="@isPending" />
 
-    <input type="password"
-           @bind="password"
-           placeholder="Введіть пароль"
-           style="width: 300px; 
-                  height: 35px; 
-                  padding: 8px; 
-                  font-size: 14px;
-                  border: 1px solid #ccc;
-                  border-radius: 4px;
-                  margin-bottom: 10px;
-                  display: block;">
+    <input type="password" @bind="password" placeholder="Введіть пароль"
+           style="width: 300px; height: 35px; padding: 8px; margin-bottom: 10px; display: block;" 
+           disabled="@isPending" />
 
-    <input type="password"
-           @bind="confirmPassword"
-           placeholder="Підтвердьте пароль"
-           style="width: 300px; 
-                  height: 35px; 
-                  padding: 8px; 
-                  font-size: 14px;
-                  border: 1px solid #ccc;
-                  border-radius: 4px;
-                  margin-bottom: 15px;
-                  display: block;">
+    <input type="password" @bind="confirmPassword" placeholder="Підтвердьте пароль"
+           style="width: 300px; height: 35px; padding: 8px; margin-bottom: 15px; display: block;" 
+           disabled="@isPending" />
 
+    @* Кнопка дизейблиться, якщо йде запит АБО якщо активовано Degraded Mode *@
     <button @onclick="CreateUser"
-            style="background-color: #4CAF50; 
-                   color: white; 
-                   padding: 10px 20px; 
-                   border: none; 
-                   border-radius: 4px; 
-                   cursor: pointer;
-                   font-size: 16px;">
-        Створити
+            disabled="@(isPending || isDegraded)"
+            style="background-color: @(isDegraded ? "#ccc" : "#4CAF50"); 
+                   color: white; padding: 10px 20px; border: none; border-radius: 4px; 
+                   cursor: @(isDegraded ? "not-allowed" : "pointer"); font-size: 16px;">
+        @(isPending ? "Створення..." : "Створити")
     </button>
 </div>
 
@@ -56,20 +40,71 @@
     private string name = "";
     private string password = "";
     private string confirmPassword = "";
-    
+
+    // Стан для Degraded Mode
+    private bool isDegraded = false;
+    private bool isPending = false;
+    private int consecutiveErrors = 0;
+    private const int MaxErrors = 3;
+
     private async Task CreateUser()
     {
-        if (password != confirmPassword)
-        {
-            return ;
-        }
+        if (password != confirmPassword || isPending || isDegraded) return;
+
+        isPending = true;
         
-        var user = new { name, password };
-        var response = await Http.PostAsJsonAsync("/api/Users", user);
-        
-        if (response.IsSuccessStatusCode)
+        // Створюємо AbortController (Таймаут клієнта 1 сек)
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+
+        try
         {
-            NavManager.NavigateTo("/Users");
+            var user = new { name, password };
+            
+            // Налаштовуємо запит з заголовками (Ідемпотентність + Кореляція)
+            var request = new HttpRequestMessage(HttpMethod.Post, "/api/Users");
+            request.Headers.Add("Idempotency-Key", Guid.NewGuid().ToString());
+            request.Headers.Add("X-Request-Id", Guid.NewGuid().ToString());
+            request.Content = JsonContent.Create(user);
+
+            var response = await Http.SendAsync(request, cts.Token);
+
+            if (response.IsSuccessStatusCode)
+            {
+                consecutiveErrors = 0; // Скидаємо лічильник при успіху
+                NavManager.NavigateTo("/Users");
+            }
+            else
+            {
+                HandleFailure();
+            }
         }
+        catch (Exception ex)
+        {
+            // Сюди потраплять і таймаути, і мережеві збої
+            HandleFailure();
+        }
+        finally
+        {
+            isPending = false;
+        }
+    }
+
+    private void HandleFailure()
+    {
+        consecutiveErrors++;
+        if (consecutiveErrors >= MaxErrors)
+        {
+            isDegraded = true;
+            // Можна додати автоматичне відновлення через 30 секунд
+            _ = ResetDegradedModeAfterDelay(30000);
+        }
+    }
+
+    private async Task ResetDegradedModeAfterDelay(int delayMs)
+    {
+        await Task.Delay(delayMs);
+        isDegraded = false;
+        consecutiveErrors = 0;
+        await InvokeAsync(StateHasChanged);
     }
 }
