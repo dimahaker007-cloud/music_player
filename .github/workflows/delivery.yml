@@ -1,44 +1,56 @@
-name: Deliver to GHCR
+name: CI/CD Multi-Service Project
 
 on:
   push:
-    branches: [ main ] # Запускаємо тільки при злитті в основну гілку
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  push-to-registry:
+  build-and-test:
     runs-on: ubuntu-latest
-    # Надаємо права на запис пакетів
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          cache: true
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build Solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+  delivery-api:
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Крок 1: Авторизація в реєстрі ghcr.io
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }} # Ваше ім'я користувача на GitHub
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Крок 2: Перетворення назви репозиторію на нижній регістр (вимога Docker)
-      - name: Extract metadata for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=raw,value=latest
-            type=sha
-
-      # Крок 3: Збірка та публікація
-      - name: Build and push Docker image
+      - name: Build and push API Image
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true # Відправляє образ у реєстр після збірки
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          file: ./Api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/music-player-api:latest
+            ghcr.io/${{ github.repository_owner }}/music-player-api:${{ github.sha }}
