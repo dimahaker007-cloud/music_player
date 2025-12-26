@@ -1,0 +1,39 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.8"
+services:
+  api:
+    build:
+      context: "D:\\music"
+      dockerfile: "Api/Dockerfile"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Api.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "api:dev"
+    ports: []
+    volumes:
+    - "D:\\music\\Api:/app:rw"
+    - "D:\\music:/src:rw"
+    - "C:\\Users\\dimah\\.nuget\\packages:/root/.nuget/packages"
+    working_dir: "/app"
+  frontend:
+    build:
+      context: "D:\\music"
+      dockerfile: "frontend/Dockerfile"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/frontend.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/frontend.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "frontend:dev"
+    ports: []
+    volumes:
+    - "D:\\music\\frontend:/app:rw"
+    - "D:\\music:/src:rw"
+    - "C:\\Users\\dimah\\.nuget\\packages:/root/.nuget/packages"
+    working_dir: "/app"

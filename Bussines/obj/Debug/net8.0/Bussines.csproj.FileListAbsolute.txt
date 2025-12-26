@@ -1,0 +1,16 @@
+D:\music\Bussines\bin\Debug\net8.0\Bussines.deps.json
+D:\music\Bussines\bin\Debug\net8.0\Bussines.dll
+D:\music\Bussines\bin\Debug\net8.0\Bussines.pdb
+D:\music\Bussines\bin\Debug\net8.0\Core.dll
+D:\music\Bussines\bin\Debug\net8.0\Core.pdb
+D:\music\Bussines\obj\Debug\net8.0\Bussines.csproj.AssemblyReference.cache
+D:\music\Bussines\obj\Debug\net8.0\Bussines.GeneratedMSBuildEditorConfig.editorconfig
+D:\music\Bussines\obj\Debug\net8.0\Bussines.AssemblyInfoInputs.cache
+D:\music\Bussines\obj\Debug\net8.0\Bussines.AssemblyInfo.cs
+D:\music\Bussines\obj\Debug\net8.0\Bussines.csproj.CoreCompileInputs.cache
+D:\music\Bussines\obj\Debug\net8.0\Bussines.sourcelink.json
+D:\music\Bussines\obj\Debug\net8.0\Bussines.csproj.Up2Date
+D:\music\Bussines\obj\Debug\net8.0\Bussines.dll
+D:\music\Bussines\obj\Debug\net8.0\refint\Bussines.dll
+D:\music\Bussines\obj\Debug\net8.0\Bussines.pdb
+D:\music\Bussines\obj\Debug\net8.0\ref\Bussines.dll
