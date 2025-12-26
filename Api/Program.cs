@@ -66,5 +66,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-//тестовий коміт
+
 app.Run();
