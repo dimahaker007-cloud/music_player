@@ -29,12 +29,12 @@ builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // 1. Middleware для X-Request-Id
-app.Use(async (context, next) => {
+/*app.Use(async (context, next) => {
     var requestId = context.Request.Headers["X-Request-Id"].FirstOrDefault() ?? Guid.NewGuid().ToString();
     context.Response.Headers["X-Request-Id"] = requestId;
     context.Items["RequestId"] = requestId; // Зберігаємо для логів/помилок
     await next();
-});
+});*/   
 
 // 2. Глобальна обробка помилок (Єдиний формат)
 
@@ -63,8 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
-app.UseAuthorization();
+//app.UseHttpsRedirection();
+//app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
