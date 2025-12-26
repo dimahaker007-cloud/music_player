@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x' # Або ваша версія
+          dotnet-version: '8.0.x'
           cache: true
 
       - name: Restore
@@ -50,8 +50,8 @@ jobs:
       - name: Build and push API
         uses: docker/build-push-action@v5
         with:
-          context: . # Контекст — корінь репозиторію (щоб бачити Core/Business)
-          file: ./ApiProjectFolderName/Dockerfile # ВКАЖІТЬ ВЛАСНИЙ ШЛЯХ ДО DOCKERFILE API
+          context: .
+          file: ./Api/Dockerfile 
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/music-player-api:latest
