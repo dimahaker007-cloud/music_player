@@ -16,19 +16,19 @@ var retryPolicy = HttpPolicyExtensions
     });
 
 builder.Services.AddHttpClient("ApiClient", client => {
-        client.BaseAddress = new Uri("https://localhost:7079/");
+        client.BaseAddress = new Uri("https://localhost:44302/");
     })
     .AddPolicyHandler(retryPolicy);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddHttpClient("LocalApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7079/"); // Ваш URL
+    client.BaseAddress = new Uri("https://localhost:44302/"); // Ваш URL
 });
 
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri("https://localhost:7079/")
+    BaseAddress = new Uri("https://localhost:44302/")
 });
 
 builder.Services.AddControllers();

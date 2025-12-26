@@ -23,7 +23,7 @@ services:
     depends_on:
       - api
     ports:
-      - "8081:80" # Змінив на 8081, щоб не було конфлікту з Rider
+      - "8081:80"
 
   # Backend API (.NET)
   api:
@@ -39,8 +39,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
     ports:
-      - "5000:8080"
-
+      - "7079:8080"
 
 volumes:
-  db_data:
+  db_data:  api-1:
+    image: api-1
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+

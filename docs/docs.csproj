@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Include=".github\workflows\delivery.yml" />
+    </ItemGroup>
+
 </Project>
