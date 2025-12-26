@@ -1,0 +1,44 @@
+name: Deliver to GHCR
+
+on:
+  push:
+    branches: [ main ] # Запускаємо тільки при злитті в основну гілку
+
+jobs:
+  push-to-registry:
+    runs-on: ubuntu-latest
+    # Надаємо права на запис пакетів
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Крок 1: Авторизація в реєстрі ghcr.io
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }} # Ваше ім'я користувача на GitHub
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Крок 2: Перетворення назви репозиторію на нижній регістр (вимога Docker)
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      # Крок 3: Збірка та публікація
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true # Відправляє образ у реєстр після збірки
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
