@@ -1,4 +1,4 @@
-﻿name: Deliver to GHCR
+name: Deliver to GHCR
 
 on:
   push:
